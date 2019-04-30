@@ -9,13 +9,16 @@ import {NavBar,
        Radio,
        Button
       } from 'antd-mobile'
+import {connect} from "react-redux"
+import {Redirect} from 'react-router-dom'
 
+  import {register} from "../../redux/actions"
    import Logo from "../../components/logo/logo" 
 
 
 
 const ListItem = List.Item;
-export default class Register extends Component {
+class Register extends Component {
 
     state = {
       username:"",  // 用户名
@@ -25,7 +28,8 @@ export default class Register extends Component {
     }
 
     register = ()=>{
-
+   
+      this.props.register(this.state)
     }
 
     goLogin = () =>{
@@ -37,14 +41,17 @@ export default class Register extends Component {
     }
 
   render() {
-    const {type} = this.state
+    const {type} = this.state;
+    const { msg, redirectTo} = this.props.user;
     return (
-      <div>
+      redirectTo    // 如果redirectTo有值,就重定向到登录
+      ? <Redirect to={redirectTo} />
+      :<div>
           <NavBar className="title">BOSS直聘</NavBar>
           <Logo />
           <WingBlank>
             <List>
-              <WhiteSpace />
+            { msg && <div className="err-msg">{msg}</div>}
             <InputItem placeholder="请输入用户名" onChange={val =>{this.handleChange("username", val)}}>用户名:</InputItem>   <WhiteSpace />
             <InputItem placeholder="请输入密码" onChange={val => { this.handleChange("password", val )}} type="password">密    码:</InputItem>   <WhiteSpace />
             <InputItem  placeholder="请输入确认密码" onChange={val => { this.handleChange("password2",val) }} type="password">确认密码:</InputItem>   <WhiteSpace />
@@ -61,3 +68,8 @@ export default class Register extends Component {
     )
   }
 }
+
+export default connect(
+  state => ({user: state.user}),
+  {register}
+)(Register)

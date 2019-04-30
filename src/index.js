@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import {HashRouter, Route, Switch} from 'react-router-dom';
 import { Provider} from "react-redux"
 
-
+import "./assets/css/index.css"
 import store from './redux/store'
 
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from './serviceWorker'
 import Main from './containers/main/main'
 import Login from './containers/login/login'
 import Register from './containers/register/register'
