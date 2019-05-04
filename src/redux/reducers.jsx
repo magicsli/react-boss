@@ -6,17 +6,23 @@ import {
     
 } from "./action-types"
 
+import {getRedirectTo} from "../utils/index"
 const initUser = {
     username:"", // 用户名
     type:"",  // 用户类型
     msg:"",   // 错误提示信息
-    redirectTo:""
+    redirectTo: null
 }
+
+
+
+
 // 产生user状态的reducer
 function user(state = initUser, action) {
     switch (action.type){
         case AUTH_SUCCESS:  // data: user
-            return {...action.data, redirectTo:"/login"}
+            const {type, header} = action.data
+            return { ...action.data, redirectTo: getRedirectTo(type, header) }
 
         case ERROR_MSG:     // data: msg
             return {...state, msg:action.data}
@@ -25,6 +31,7 @@ function user(state = initUser, action) {
             return state
     }
 }   
+
 
 
 

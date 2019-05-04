@@ -18,7 +18,7 @@ const errorMsg = (msg) =>({type:ERROR_MSG, data:msg})
 
 // 注册异步action
 export const register = ( user ) => {
-    const {username, password, type, password2} = user;
+    const {username, password, password2} = user;
     // 表单前台验证
     if(!username) return errorMsg("用户名必须指定");
     if(!password || !password2) return errorMsg("请设置密码")
