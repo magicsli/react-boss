@@ -6,14 +6,23 @@ import { reqResgister,
 
 import {
     AUTH_SUCCESS,
-    ERROR_MSG
+    ERROR_MSG,
+    RECEIVE_USER,
+    RESET_USER
 } from './action-types'    
+
 
 // 授权成功的同步action
 const authSuccess = (user) => ({type: AUTH_SUCCESS, data: user})
 
 // 授权提示信息的同步action
 const errorMsg = (msg) =>({type:ERROR_MSG, data:msg})
+
+// 接收用户的同步action
+const receiveUser = (user) => ({ type: RECEIVE_USER, data:user})
+
+// 接收重置用户的同步action
+const resetUser = (msg) => ({ type: RESET_USER, data:msg })
 
 
 // 注册异步action
@@ -47,7 +56,7 @@ export const register = ( user ) => {
 export const login = (user) => {
     const { username, password  } = user;
     if (!username) return errorMsg("用户名必须指定");
-    if (!password) return errorMsg("请设置密码");
+    if (!password) return errorMsg("请输入密码");
 
     return async dispath => {
         // 发送请求
@@ -56,11 +65,26 @@ export const login = (user) => {
 
         if (result.code === 0) {
              // 分发授权成功的action
-            dispath(authSuccess(result.data))
+            dispath(authSuccess(result.user))
         } else {
             // 分发授权失败的action
             dispath(errorMsg(result.msg))
         }
 
+    }
+}
+
+// 更新状态
+export const update = (user) => {
+    return async dispath => {
+       const response = await  reqUpdata(user);
+        const result = response.data;
+        if(result.code == 0){ // 更新成功
+
+            dispath(receiveUser(result.data))    
+        }else{ // 更新失败
+            dispath(resetUser(result.msg))
+        }
+        
     }
 }

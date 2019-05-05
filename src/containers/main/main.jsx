@@ -1,13 +1,41 @@
 import React, { Component } from 'react'
 
-import {Switch, Route} from 'react-router-dom'
-
+import {Switch, Route, Redirect} from 'react-router-dom'
+import {connect} from "react-redux"
+import Cookies from "js-cookie"
+ 
 import BossInfo from "../boss-info/boss-info"
 import DashenInfo from "../dashen-info/dashen-info"
 
 
-export default class Main extends Component {
+ class Main extends Component {
   render() {
+      const userid = Cookies.get('userid')
+    if (!userid) {
+      return <Redirect to={'/login'} />;
+    }
+    const {user} = this.props;
+    if(!user._id){
+
+      return null
+
+    }else{
+
+      const path = this.props.location.pathname
+      if(path ==='/'){
+          
+      }
+      
+    }
+
+
+  
+
+
+    // 检测用户是否登录, 若没有就重定向到登录界面
+
+    
+    
     return (
       <div>
         <Switch>
@@ -18,3 +46,7 @@ export default class Main extends Component {
     )
   }
 }
+export default connect(
+  state => ({user: state.user}),
+
+)(Main)

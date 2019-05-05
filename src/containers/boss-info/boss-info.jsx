@@ -1,10 +1,11 @@
 /* boss 信息完善界面 */ 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
 import { NavBar, InputItem, TextareaItem, Button } from 'antd-mobile'
+import {Redirect} from "react-router-dom"
 
 import AvatarInit from "../../components/avatarInit/avatarInit"
+import {update} from "../../redux/actions"
 
  class BossInfo extends Component {
 
@@ -25,10 +26,16 @@ import AvatarInit from "../../components/avatarInit/avatarInit"
     }
 
     save = () => {
-        //this.props.updateUser(this.state)
+        this.props.update(this.state)
     }
 
   render() {
+      const { header, type } = this.props.user;
+      if(header && type ){
+          // 信息完成, 进行重定向
+        const path = type ===" dashen" ? '/dashen' : '/boss'
+        return <Redirect to = {path}></Redirect>
+      }
     return (
         <div>
             <NavBar>老板信息完善</NavBar>
@@ -46,6 +53,6 @@ import AvatarInit from "../../components/avatarInit/avatarInit"
 }
 
 export default connect(
-//  state => ({state : state}),
-//  {}
+ state => ({user : state.user}),
+ {update}
 )(BossInfo)
