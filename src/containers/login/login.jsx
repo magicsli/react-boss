@@ -7,7 +7,8 @@ import {
   List,
   InputItem,
   WhiteSpace,
-  Button
+  Button,
+  Toast
 } from 'antd-mobile'
 
 import {connect} from "react-redux"
@@ -25,8 +26,12 @@ import bossPic from "./boss.png"
     password: "",  // 密码
   }
 
-  login = () => {
-    this.props.login(this.state)
+  login = async () => {
+    await this.props.login(this.state)
+    const { msg } = this.props.user;
+    if (msg) {
+      this.failToast(msg)
+    }
   }
 
   goRegister = () => {
@@ -36,9 +41,12 @@ import bossPic from "./boss.png"
   handleChange = (name, val) => {
     this.setState({ [name]: val });  //name这里需要变成变量
   }
-
+ failToast = (msg)=> {
+   Toast.fail(msg, 1);
+}
   render() {
-    const { msg, redirectTo} = this.props.user
+    const { msg, redirectTo} = this.props.user;
+  
     return (
       redirectTo    // 如果redirectTo有值,就重定向到登录
         ? <Redirect to={redirectTo} />
@@ -49,7 +57,7 @@ import bossPic from "./boss.png"
         </div>
         <WingBlank>
           <List>
-              {msg && <div className="err-msg">{msg}</div>}
+             
             <WhiteSpace />
             <InputItem placeholder="请输入用户名" onChange={val => { this.handleChange("username", val) }}>用户名:</InputItem>   <WhiteSpace />
             <InputItem placeholder="请输入密码" onChange={val => { this.handleChange("password", val) }} type="password">密    码:</InputItem>   <WhiteSpace />

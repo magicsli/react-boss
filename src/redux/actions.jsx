@@ -1,14 +1,17 @@
 
 import { reqResgister, 
          reqLogin,
-         reqUpdata
+         reqUpdata,
+         reqUser,
+         reqUserList
 } from "../api/index"
 
 import {
     AUTH_SUCCESS,
     ERROR_MSG,
     RECEIVE_USER,
-    RESET_USER
+    RESET_USER,
+    RECEIVE_USER_LIST
 } from './action-types'    
 
 
@@ -22,7 +25,7 @@ const errorMsg = (msg) =>({type:ERROR_MSG, data:msg})
 const receiveUser = (user) => ({ type: RECEIVE_USER, data:user})
 
 // 接收重置用户的同步action
-const resetUser = (msg) => ({ type: RESET_USER, data:msg })
+ export const resetUser = (msg) => ({ type: RESET_USER, data:msg })
 
 
 // 注册异步action
@@ -86,5 +89,32 @@ export const update = (user) => {
             dispath(resetUser(result.msg))
         }
         
+    }
+}
+
+// 获取用户异步action
+export const getUser = () => {
+    return async dispath => {
+        const response = await reqUser();
+        const result = response.data;
+        if(result.code == 0){
+            dispath(receiveUser(result.data))
+        }else{
+            dispath(resetUser(result.msg))
+        }
+    }
+}
+
+// 接收用户列表的同步action
+export const receiveUserList = (userList) => ({ type: RECEIVE_USER_LIST, data: userList })
+
+// 获取用户列表的异步action
+export const getUserList = (type) => {
+
+    return async dispath => {
+        const response = await reqUserList(type);
+        if(response.data.code == 0){
+            return dispath(receiveUserList(response.data.data))
+        }
     }
 }

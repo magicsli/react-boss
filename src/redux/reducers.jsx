@@ -4,7 +4,8 @@ import {
     AUTH_SUCCESS,
     ERROR_MSG,
     RECEIVE_USER,
-    RESET_USER
+    RESET_USER,
+    RECEIVE_USER_LIST
 } from "./action-types"
 
 import {getRedirectTo} from "../utils/index"
@@ -14,7 +15,7 @@ const initUser = {
     msg:"",   // 错误提示信息
     redirectTo: null
 }
-
+const initUserList = []
 
 
 
@@ -22,8 +23,6 @@ const initUser = {
 function user(state = initUser, action) {
     switch (action.type){
         case AUTH_SUCCESS:  // data: user
-
-            
             const {type, header} = action.data
             return { ...action.data, redirectTo: getRedirectTo(type, header) }
 
@@ -42,7 +41,19 @@ function user(state = initUser, action) {
 }   
 
 
+// 产生新的userlist的reducer
+function userList(state = initUserList, action){
 
+    switch (action.type) {
+
+        case RECEIVE_USER_LIST:
+            return action.data
+
+        default:
+            return state
+          
+    }
+}
 
 
 
@@ -52,5 +63,6 @@ function user(state = initUser, action) {
 
 /*  对外暴露的状态的结构 */
 export default combineReducers({
-    user
+    user,
+    userList
 })
