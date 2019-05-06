@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Result, List, WhiteSpace, Button, Modal} from 'antd-mobile'
+import {Result, List, Button, Modal} from 'antd-mobile'
 import {connect} from 'react-redux'
 import Cookies from "js-cookie"
  
@@ -27,14 +27,14 @@ class Personal extends Component {
   }
 
   render() {
-    const { username, type, header, company, post, salary, info} = this.props.user
+    const { username, header, company, post, salary, info} = this.props.user
     return (
-      <div>
+      <div style={{ paddingBottom: '60px', paddingTop: 50 }}>
             <Result 
               img ={<img src={require(`../../assets/avatar/${header}.jpg`)} style={{width:50}} alt='header'/>}
               title = {username}
               message= {company}
-            />
+            /> 
             <List renderHeader = {() => '相关信息'}>
                 <Item multipleLine>
                     <Brief>职位: {post}</Brief>

@@ -16,7 +16,7 @@ export default class UserList extends Component {
     const {userList} = this.props;
     userList.reverse();
     return (
-        <WingBlank style = {{paddingBottom:'60px'}}>
+        <WingBlank style = { { paddingBottom:'60px', paddingTop:50 }}>
             {userList.map((user, k ) => {
               return (<div key = {k} >
                         <WhiteSpace/>
