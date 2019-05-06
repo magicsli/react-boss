@@ -16,7 +16,7 @@ import Message from '../message/message'
 import Personal from '../Personal/Personal'
 import NotFound from "../../components/not-found/NotFound"
 import NavFooter from "../../components/nav-footer/nav-footer"
-
+import Chat from "../chat/chat"
 
  class Main extends Component {
 
@@ -103,9 +103,9 @@ import NavFooter from "../../components/nav-footer/nav-footer"
           {
             navList.map(nav => <Route key={nav.path} path={nav.path} component={nav.component} />)
           }
-
           <Route path="/bossinfo" component={BossInfo} />
           <Route path="/dasheninfo" component={DashenInfo} />
+          <Route path="/chat/:userid" component={Chat} />
          
         
 

@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker'
 import Main from './containers/main/main'
 import Login from './containers/login/login'
 import Register from './containers/register/register'
-import './text/socket_test'
+
 ReactDOM.render(
     <Provider store = {store}>
         <HashRouter>
