@@ -28,6 +28,7 @@ class Personal extends Component {
 
   render() {
     const { username, header, company, post, salary, info} = this.props.user
+ 
     return (
       <div style={{ paddingBottom: '60px', paddingTop: 50 }}>
             <Result 

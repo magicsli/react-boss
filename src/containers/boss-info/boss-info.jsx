@@ -33,7 +33,7 @@ import {update} from "../../redux/actions"
       const { header, type } = this.props.user;
       if(header && type ){
           // 信息完成, 进行重定向
-        const path = type ===" dashen" ? '/dashen' : '/boss'
+        const path = type ===" dashen" ? '/boss' : '/dashen'
         return <Redirect to = {path}></Redirect>
       }
     return (

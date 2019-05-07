@@ -7,7 +7,8 @@ import {
     RESET_USER,
     RECEIVE_USER_LIST,
     RECEIVE_MSG_LIST,
-    RECEIVE_MSG
+    RECEIVE_MSG,
+    MSGREAD
 } from "./action-types"
 
 import {getRedirectTo} from "../utils/index"
@@ -29,7 +30,8 @@ const initChat = {
 function user(state = initUser, action) {
     switch (action.type){
         case AUTH_SUCCESS:  // data: user
-            const {type, header} = action.data
+            const {type, header} = action.data;
+          
             return { ...action.data, redirectTo: getRedirectTo(type, header) }
 
         case ERROR_MSG:     // data: msg
@@ -52,7 +54,7 @@ function userList(state = initUserList, action){
     switch (action.type) {
 
         case RECEIVE_USER_LIST:
-            return action.data
+            return action.data.reverse()
 
         default:
             return state
@@ -64,17 +66,32 @@ function userList(state = initUserList, action){
 function chat(state=initChat, action){
 
     switch (action.type){
-        case RECEIVE_MSG_LIST:     // data: {users, chatMsgs}
-            const {users, chatMsgs} = action.data;
-           
-            return { users, chatMsgs, unReadCount:0 } ;
+        case RECEIVE_MSG_LIST:     // data: {users, chatMsgs, userid}
+            const {users, chatMsgs, userid} = action.data;
+            console.log(userid)
+            return { users, chatMsgs, unReadCount: chatMsgs.reduce((sum, msg) => sum + (!msg.read && msg.to === userid ? 1 : 0) , 0) } ;
 
-        case RECEIVE_MSG: // data: chatMsg
-            const chatMsg = action.data
+        case RECEIVE_MSG: // data: {chatMsg,userid }
+            const { chatMsg} = action.data
+            console.log(action.data.userid)
             return { users:state.users,
-                     chatMsgs:[...state.chatMsgs, chatMsg], 
-                     unReadCount: 0 };
+                     chatMsgs: [...new Set([...state.chatMsgs, chatMsg])] , 
+                     unReadCount: state.unReadCount + (!chatMsg.read && chatMsg.to === action.data.userid ? 1 : 0) };
        
+        case MSGREAD:
+                const { count , from, to} = action.data
+                    console.log(count)
+                return{
+                        users: state.users,
+                        chatMsgs: state.chatMsgs.map( msg=>{
+                            if(msg.from === from && msg.to === to && !msg.read){
+                                return {...msg, read: true}
+                            }
+                            return msg
+                        } ),
+                            unReadCount: state.unReadCount - count
+                        };
+                
 
         default:
             return state;

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {List, NavBar, InputItem, Grid, Icon} from "antd-mobile"
-import {sendMsg} from "../../redux/actions"
-
+import { sendMsg, readMsg} from "../../redux/actions"
 
 const {Item} = List
 class Chat extends Component {
@@ -32,9 +31,17 @@ class Chat extends Component {
     }
     componentDidMount() {
         window.scrollTo(0, document.body.scrollHeight)
+          
+       
     }
     
-
+    componentWillUnmount() {
+          // 发请求更新已读消息
+        const userId = this.props.user._id
+        const targetId = this.props.match.params.userid
+        this.props.readMsg(targetId, userId)
+    }
+    
     componentDidUpdate() {
         window.scrollTo(0, document.body.scrollHeight)
     }
@@ -73,26 +80,27 @@ class Chat extends Component {
       const targetId = this.props.match.params.userid;
       const chatId = [meId, targetId].sort().join('_')
       // 对 chatMsgs 进行过滤 
-     const msgs =  chatMsgs.filter(msg=> msg.chat_id === chatId)
+     const msgs =  chatMsgs.filter( msg=> msg.chat_id === chatId )
       const targetHeader = users[targetId].header
       const targetAvatar = require(`../../assets/avatar/${targetHeader || '头像1'}.jpg`) 
      return (
       <div id = 'chat-page'>
              <NavBar icon={<Icon onClick={ ()=>{this.props.history.goBack()} } type='left'></Icon>} className="sticky-header">{users[targetId].username}</NavBar>
              <List style={{ padding:'50px 0'}}>
+                
+                     {
+                         msgs.map((msg, index) => {
+                             if (meId === msg.to) {
+                                 return <Item key={index} thumb={targetAvatar} > {msg.content}</Item>
+                             } else {
+                                 return (<Item key={index} className='chat-me' extra='我' >
+                                     {msg.content}
+                                 </Item>)
+                             }
+                         })
+                     }
 
-                {
-                    msgs.map((msg,index)=>{
-                        if(meId === msg.to){
-                            return <Item key={index} thumb={targetAvatar} > {msg.content}</Item>
-                        }else{
-                            return (<Item key={index} className='chat-me' extra='我' >
-                                {msg.content}
-                                   </Item>)
-                        }
-                    })
-
-                }
+             
           
             </List>
             <div className='am-tab-bar'>
@@ -125,5 +133,5 @@ class Chat extends Component {
 
 export default connect(
     state => ({ user:state.user, chat:state.chat }),
-    { sendMsg }
+    { sendMsg, readMsg }
 )(Chat)

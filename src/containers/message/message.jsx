@@ -23,34 +23,25 @@ import { List, Badge } from "antd-mobile"
 
   //         if(item.chat_id in newChatMsgs){
   //             newChatMsgs[item.chat_id].push(item);
-  //           newChatMsgs[item.chat_id][0].unReadCount = newChatMsgs[item.chat_id][0].unReadCount * 1 + item.unReadCount
-
+  //            newChatMsgs[item.chat_id][0].unReadCount = newChatMsgs[item.chat_id][0].unReadCount * 1 + item.unReadCount
   //         }else{
   //           newChatMsgs[item.chat_id] = [item];
-            
   //         }
-      
-          
   //     } )
-
   //     for( let k in newChatMsgs ){
   //       newChatMsgs[k].sort((user, user2) => user2.create_time - user.create_time)
   //       lastMsge.push(newChatMsgs[k][0]);
   //     }
-
-
   //    return lastMsge;
   //  }
 
    getLastMsgs = (chatMsgs, userid) => {
       const lastMsgObjs = {};
       chatMsgs.forEach( msg=> {
-          if(msg.to === userid && !msg.read){
-            msg.unReadCount = 1
-          }else{
-            msg.unReadCount = 0
-          }
-          const chatId = msg.chat_id;
+
+        msg.unReadCount = (msg.to === userid && !msg.read) ? 1 : 0;
+        
+        const chatId = msg.chat_id;
           let lastMsg = lastMsgObjs[chatId];
           if(!lastMsg) {
             lastMsgObjs[chatId] = msg
@@ -76,10 +67,10 @@ import { List, Badge } from "antd-mobile"
     const {users, chatMsgs} = this.props.chat;
     
     // 对chatMsgs 按 chat_id 进行分组, 排序
-    const lastMsge = this.getLastMsgs(chatMsgs); 
-    console.log(lastMsge)
+    const lastMsge = this.getLastMsgs(chatMsgs, user._id); 
+  
     return (
-        <List style ={{marginTop:50, marginBottom:50}}>
+      <List style ={{marginTop:50, marginBottom:50}}>
 
           {
           lastMsge.map( msg => {
@@ -94,7 +85,6 @@ import { List, Badge } from "antd-mobile"
             { users[msg.to === user._id ? msg.from : msg.to].username }
             <Brief>{msg.content}</Brief>
           </Item>)  } )
-
           }
             
 

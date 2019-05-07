@@ -82,6 +82,7 @@ import Chat from "../chat/chat"
     }
     const {navList} = this;
     const path = this.props.location.pathname;
+    const { unReadCount } = this.props
     const currentNav = navList.find( (nav)=> nav.path === path )
     if(currentNav) {
       // 决定哪个路由需要隐藏
@@ -94,7 +95,7 @@ import Chat from "../chat/chat"
         navList[0].hide = true;
       }
     }
-
+   
     return (
       <div>
         {currentNav ? <NavBar className='sticky-header'>{currentNav.title}</NavBar> : null}
@@ -111,12 +112,12 @@ import Chat from "../chat/chat"
 
           <Route  component={NotFound} />
           </Switch>
-        {currentNav ? <NavFooter navList = {navList} /> : null}
+        {currentNav ? <NavFooter unReadCount={unReadCount} navList = {navList} /> : null}
       </div>
     )
   }
 }
 export default connect(
-  state => ({user: state.user}),
+  state => ({ user: state.user, unReadCount: state.chat.unReadCount}),
   { getUser }
 )(Main)

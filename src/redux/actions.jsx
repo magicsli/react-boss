@@ -15,7 +15,8 @@ import {
     RESET_USER,
     RECEIVE_USER_LIST,
     RECEIVE_MSG_LIST,
-    RECEIVE_MSG
+    RECEIVE_MSG,
+    MSGREAD
 } from './action-types'    
 
 import io from 'socket.io-client'
@@ -25,6 +26,9 @@ import io from 'socket.io-client'
 2, 创建对象之后: 保存对象
 */
 
+
+
+// 接收消息
 function initIo (userid, dispath){
     if(!io.socket){
       io.socket = io('ws://127.0.0.1:4000')
@@ -33,7 +37,8 @@ function initIo (userid, dispath){
     io.socket.on('receiveMsg', function (chatMsg) {
         // 这里会接收所有人的消息,  我们只有当chatMsg是与当前用户相关的消息, 才会分发同步action保存消息
         if(userid === chatMsg.from || userid === chatMsg.to){
-            dispath(receiveMsg(chatMsg))
+                
+            dispath(receiveMsg({chatMsg, userid}))
         }   
     })
 }
@@ -62,7 +67,7 @@ async function getMsgList( dispath, userid ){
        const {users, chatMsgs} = result.data
        // 分发同步action
        
-       dispath(receiveMsgList({ users, chatMsgs }))  
+       dispath(receiveMsgList({ users, chatMsgs, userid }))  
    }
 }
 
@@ -118,7 +123,7 @@ export const login = (user) => {
     }
 }
 
-// 更新状态
+// 更新信息
 export const update = (user) => {
     return async dispath => {
        const response = await  reqUpdata(user);
@@ -152,21 +157,37 @@ export const getUser = () => {
 export const receiveUserList = (userList) => ({ type: RECEIVE_USER_LIST, data: userList })
 
 // 接收消息列表的同步action
-export const receiveMsgList = ({ users, chatMsgs }) => ({ type: RECEIVE_MSG_LIST, data: { users, chatMsgs }})
+export const receiveMsgList = ({ users, chatMsgs, userid }) => ({ type: RECEIVE_MSG_LIST, data: { users, chatMsgs, userid  }})
 
 // 接收一个消息的同步action
-export const receiveMsg = (chatMsg) => ({type:RECEIVE_MSG, data:chatMsg})
+export const receiveMsg = ({chatMsg, userid}) => ({type:RECEIVE_MSG, data:{chatMsg, userid}})
+
+// 已读消息的同步action 
+export const msgRead = ({ count, from, to }) => ({ type: MSGREAD, data: { count, from, to }})
 
 // 获取用户列表的异步action
 export const getUserList = (type) => {
 
     return async dispath => {
         const response = await reqUserList(type);
-        if(response.data.code == 0){
+        if(response.data.code === 0){
             return dispath(receiveUserList(response.data.data))
         }
     }
 }
+// 已读消息的异步action
+export const readMsg = (from, userId) => {
+    return async dispath => {
+        
+        const response = await reqReadMsg(from);
+            const result = response.data;
+            if(result.code === 0){
+                dispath(msgRead({ count: result.data, from, to:userId}) )
+            }
+    }
+}
+
+
 
 export const sendMsg = ( {from, to, content} ) => {
    return dispath =>{

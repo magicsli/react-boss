@@ -11,15 +11,15 @@ const Item = TabBar.Item;
 
   render() {
     
-      let {navList} = this.props;
+      let { navList, unReadCount} = this.props;
       const path = this.props.location.pathname
       navList = navList.filter(nav => !nav.hide)
-
     return (    
         <TabBar>
           {
               navList.map( (nav) => (
                   <Item key={nav.path} 
+                  badge={nav.path === '/message' ? unReadCount : null}
                   title = {nav.text}
                   icon = {{uri:require(`./images/${nav.icon}.png`)}}
                   selectedIcon={{ uri: require(`./images/${nav.icon}-selected.png`) }}
