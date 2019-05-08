@@ -44,19 +44,20 @@ class Register extends Component {
     handleChange = (name, val) =>{
         this.setState({[name]:val});  //name这里需要变成变量
     }
-  failToast = (msg) => {
+
+    failToast = (msg) => {
     Toast.fail(msg, 1);
-  }
+    }
 
   render() {
     const {type} = this.state;
-    const { msg, redirectTo} = this.props.user;
+    const {redirectTo} = this.props.user;
    
     return (
       redirectTo    // 如果redirectTo有值,就重定向到登录
       ? <Redirect to={redirectTo} />
       :<div>
-          <NavBar className="title">BOSS直聘</NavBar>
+          <NavBar className="title" style={{letterSpacing:3}}>极简招聘</NavBar>
           <Logo />
           <WingBlank>
             <List>

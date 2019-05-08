@@ -19,7 +19,7 @@ const { Header, Body} = Card
  
     return (
         <WingBlank style = { { paddingBottom:'60px', paddingTop:50 }}>
-        <QueueAnim type="scale">
+        <QueueAnim type="right">
           {userList.map((user, k) => {
             return (<div key={k} >
               <WhiteSpace />

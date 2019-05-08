@@ -29,21 +29,27 @@ class Chat extends Component {
 
         
     }
-    componentDidMount() {
-        window.scrollTo(0, document.body.scrollHeight)
-          
-       
-    }
-    
-    componentWillUnmount() {
-          // 发请求更新已读消息
+
+    onReadMsg = () => {
+
         const userId = this.props.user._id
         const targetId = this.props.match.params.userid
-        this.props.readMsg(targetId, userId)
+        this.props.readMsg(targetId, userId);
+    }
+
+    componentDidMount() {
+        window.scrollTo(0, document.body.scrollHeight)
+         this.onReadMsg()
+    }
+    
+    componentWillUnmount (){
+        this.onReadMsg()
+          // 发请求更新已读消息
     }
     
     componentDidUpdate() {
         window.scrollTo(0, document.body.scrollHeight)
+        
     }
     
 
@@ -68,6 +74,10 @@ class Chat extends Component {
             
         }
         this.setState({ content: '', isShow: false })
+
+
+      
+
     }
   render() {
       const {user} = this.props;

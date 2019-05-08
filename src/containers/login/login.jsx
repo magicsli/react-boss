@@ -15,7 +15,6 @@ import {connect} from "react-redux"
 import {Redirect} from 'react-router-dom'
 import {login} from "../../redux/actions"
 
-
 import bossPic from "./boss.png"
 
 
@@ -51,7 +50,7 @@ import bossPic from "./boss.png"
       redirectTo    // 如果redirectTo有值,就重定向到登录
         ? <Redirect to={redirectTo} />
         : <div>
-        <NavBar className="title">BOSS直聘</NavBar>
+          <NavBar className="title" style={{ letterSpacing: 3 }} >极简直聘</NavBar>
         <div>
           <img style={{width:"100%", margin:"0 0 16px 0"}} src={bossPic} alt=""/>
         </div>

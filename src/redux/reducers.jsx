@@ -68,19 +68,19 @@ function chat(state=initChat, action){
     switch (action.type){
         case RECEIVE_MSG_LIST:     // data: {users, chatMsgs, userid}
             const {users, chatMsgs, userid} = action.data;
-            console.log(userid)
+
             return { users, chatMsgs, unReadCount: chatMsgs.reduce((sum, msg) => sum + (!msg.read && msg.to === userid ? 1 : 0) , 0) } ;
 
         case RECEIVE_MSG: // data: {chatMsg,userid }
             const { chatMsg} = action.data
-            console.log(action.data.userid)
+
             return { users:state.users,
                      chatMsgs: [...new Set([...state.chatMsgs, chatMsg])] , 
                      unReadCount: state.unReadCount + (!chatMsg.read && chatMsg.to === action.data.userid ? 1 : 0) };
        
         case MSGREAD:
                 const { count , from, to} = action.data
-                    console.log(count)
+            console.log(state.unReadCount, count)
                 return{
                         users: state.users,
                         chatMsgs: state.chatMsgs.map( msg=>{
@@ -89,7 +89,7 @@ function chat(state=initChat, action){
                             }
                             return msg
                         } ),
-                            unReadCount: state.unReadCount - count
+                            unReadCount: state.unReadCount-count
                         };
                 
 

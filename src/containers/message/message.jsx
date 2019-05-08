@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux"
 import { List, Badge } from "antd-mobile"
-
+import QueueAnim from 'rc-queue-anim'
   const Item = List.Item;
   const Brief = Item.Brief;
 
@@ -62,36 +62,41 @@ import { List, Badge } from "antd-mobile"
      return lastMsgs
     }
 
-  render() {
-    const {user} = this.props;
-    const {users, chatMsgs} = this.props.chat;
+   render() {
+      const {user} = this.props;
+      const {users, chatMsgs} = this.props.chat;
+      
+      // 对chatMsgs 按 chat_id 进行分组, 排序
+      const lastMsge = this.getLastMsgs(chatMsgs, user._id); 
     
-    // 对chatMsgs 按 chat_id 进行分组, 排序
-    const lastMsge = this.getLastMsgs(chatMsgs, user._id); 
-  
-    return (
-      <List style ={{marginTop:50, marginBottom:50}}>
+      return (
+        <List style ={{marginTop:50, marginBottom:50}}>
+            <QueueAnim type="left">
 
-          {
-          lastMsge.map( msg => {
-            const targetId = msg.from === user._id ? msg.to : msg.from
-         return (<Item
-            key={msg._id} 
-            extra={ <Badge text={msg.unReadCount} /> }
-           thumb={require(`../../assets/avatar/${users[targetId].header || '头像1'}.jpg`)}
-            arrow='horizontal' 
-            onClick = { ()=>this.props.history.push(`/chat/${targetId}`) }
-            >
-            { users[msg.to === user._id ? msg.from : msg.to].username }
-            <Brief>{msg.content}</Brief>
-          </Item>)  } )
-          }
-            
-
+            {
+              lastMsge.map(msg => {
+                const targetId = msg.from === user._id ? msg.to : msg.from
+                return (<Item
+                  key={msg._id}
+                  extra={<Badge text={msg.unReadCount} />}
+                  thumb={require(`../../assets/avatar/${users[targetId].header || '头像1'}.jpg`)}
+                  arrow='horizontal'
+                  onClick={() => this.props.history.push(`/chat/${targetId}`)}
+                >
+                  {users[msg.to === user._id ? msg.from : msg.to].username}
+                  <Brief>{msg.content}</Brief>
+                </Item>)
+              })
+            }
           
-        </List>
-    )
-  }
+            </QueueAnim>
+
+              
+
+            
+          </List>
+      )
+    }
 }
 export default connect(
     state => ({user:state.user, chat:state.chat})

@@ -1,8 +1,11 @@
 .logo-container{
     text-align: center !important;
+    background-color: #fff;
+    margin:0 0  12px 0;
 }
 .logo-container img {
-    margin: 12px 0;
+   
+    max-height: 180px;
     vertical-align: top;
     
 }

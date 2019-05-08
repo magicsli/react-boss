@@ -178,8 +178,8 @@ export const getUserList = (type) => {
 // 已读消息的异步action
 export const readMsg = (from, userId) => {
     return async dispath => {
-        
         const response = await reqReadMsg(from);
+        console.log(response)
             const result = response.data;
             if(result.code === 0){
                 dispath(msgRead({ count: result.data, from, to:userId}) )
