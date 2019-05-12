@@ -10,7 +10,7 @@
   + 前端: react 全家桶 ... 
   + 后端: `node + express + mongodb + socketIO` 等
 + 特点:  react的特点该有的都有,优秀的React优点不必多说. 
-
++ 我的个人网站地址 <a href="https://www.magicsli.com">项目地址</a>
 
 ## 开发一记
 + 遇到的几个个bug:
