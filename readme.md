@@ -54,10 +54,16 @@
            - app cache 用途感觉多用于游戏这类对文件没有大幅更新的项目, 风险较大, 而且我们也有web storage这类缓存技术, 
            - 这个技术就是一把双刃剑, 用好了, 页面性能至少提升50%. 当然这个也是需要付出较大风险
 
-    //  - Websocket 使用 ws 或 wss 的统一资源标志符，类似于 HTTPS，其中 wss 表示在 TLS 之上的 Websocket。如：
-  //     ws://example.com/wsapi
-   //   wss://secure.example.com/
-//Websocket 使用和 HTTP 相同的 TCP 端口，可以绕过大多数防火墙的限制。默认情况下，Websocket 协议使用 80 端口；运行在 TLS 之上时，默认使用 443 端口
+  + 解决了webSocket报400错误的问题
+      - 由于我们需要通过websocket进行长连接时需要对连接进行升级, 升级到websocket, 所以服务器必须对其请求进行相应的配置,如果请求头中带了申请websocket的升级请求,则需要开启反应 修改如下 :    ( 原博客地址: https://www.cnblogs.com/duanweishi/p/9286461.html )
+      
+      其中最重要的是下面这三行
 
+          1proxy_http_version 1.1;
+          2proxy_set_header Upgrade $http_upgrade;
+          3proxy_set_header Connection "upgrade";
+          其中第一行是告诉nginx使用HTTP/1.1通信协议，这是websoket必须要使用的协议。
+
+          第二行和第三行告诉nginx，当它想要使用WebSocket时，响应http升级请求。
       
   
