@@ -53,3 +53,11 @@
       - **总结:**
            - app cache 用途感觉多用于游戏这类对文件没有大幅更新的项目, 风险较大, 而且我们也有web storage这类缓存技术, 
            - 这个技术就是一把双刃剑, 用好了, 页面性能至少提升50%. 当然这个也是需要付出较大风险
+    + 发现websocket报400错误的原因:  由于我的数据通信选择socketIO进行, 若websocket连接出错,则会自动进行ajax轮询连接;而在项目中出现了webSocket错误的问题, 经过查询,终于找到错误的问题
+      - Websocket 使用 ws 或 wss 的统一资源标志符，类似于 HTTPS，其中 wss 表示在 TLS 之上的 Websocket。如：
+       ws://example.com/wsapi
+      wss://secure.example.com/
+Websocket 使用和 HTTP 相同的 TCP 端口，可以绕过大多数防火墙的限制。默认情况下，Websocket 协议使用 80 端口；运行在 TLS 之上时，默认使用 443 端口
+
+      - 由于对于我的websocket的链接地址设置为 'wss:www.magicsli.com' ,但是我的服务器并没有部署TLS, 导致websocket找不到地址,链接错误
+  
