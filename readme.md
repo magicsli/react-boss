@@ -62,9 +62,9 @@
       
       其中最重要的是下面这三行
 
-          1proxy_http_version 1.1;
-          2proxy_set_header Upgrade $http_upgrade;
-          3proxy_set_header Connection "upgrade";
+           proxy_http_version 1.1;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection "upgrade";
           其中第一行是告诉nginx使用HTTP/1.1通信协议，这是websoket必须要使用的协议。
 
           第二行和第三行告诉nginx，当它想要使用WebSocket时，响应http升级请求。
