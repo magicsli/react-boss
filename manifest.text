@@ -1,0 +1,21 @@
+CACHE MANIFEST
+
+CACHE:
+./index.html
+./static/js/2.bdd9b43f.chunk.js
+./static/js/main.fe323417.chunk.js
+./static/js/runtime~main.a8a9905a.js
+./static/media/boss.71bfe313.png
+./static/media/dashen.f1d008f0.png
+./static/media/logo.472e01c6.jpg
+./static/media/personal.75d83f0c.png
+./static/media/laoban.abe83e43.png
+./static/css/2.ede8b928.chunk.css
+./static/css/main.e8b4857b.chunk.css
+
+
+NETWORK:
+*
+
+FALLBACK:
+*

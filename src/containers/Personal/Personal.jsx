@@ -13,8 +13,8 @@ class Personal extends Component {
   logout = () => {
     Modal.alert('退出', '确认退出登录吗?',[
       {
-        text:'取消',
-        onPress: () => console.log('cancel')
+        text:'取消'
+       
       },
       {
         text: '确认',

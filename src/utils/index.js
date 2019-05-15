@@ -1,6 +1,6 @@
 export function getRedirectTo(type, header) { // 根据用户信息选择main的路由
     let path = '';
-    console.log(type, header)
+  
     if (type === 'dashen') {
         path = '/boss'
     } else {

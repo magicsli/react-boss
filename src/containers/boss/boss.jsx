@@ -15,7 +15,6 @@ import {getUserList} from "../../redux/actions"
   }
   
   render() {
-    console.log(this.props.userList)
     return (
       <UserList userList={this.props.userList} />
     )

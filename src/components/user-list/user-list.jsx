@@ -2,23 +2,57 @@
 
 import React, { Component } from 'react'
 import PropTypes from "prop-types"
-import { WingBlank, WhiteSpace, Card} from "antd-mobile"
+import { WingBlank, WhiteSpace, Card, SearchBar, Toast} from "antd-mobile"
 import QueueAnim from 'rc-queue-anim'
 import {withRouter} from "react-router-dom"
 
-const { Header, Body} = Card
+const { Header, Body} = Card;
+
+ var likeSort = []
 
  class UserList extends Component {
 
     static propTypes = {
-        userList : PropTypes.array.isRequired
+        userList : PropTypes.array.isRequired,
+   
+    }
+    state = {
+      likePort: '',
+      search: false
     }
 
+   handleSort = (val) => {
+     const { userList } = this.props;
+     const likePort = val
+     likeSort = userList.filter( user =>{
+       if (user.post && user.post.indexOf(likePort) !== -1 ){ 
+         return true
+       }
+       return false;
+     } )
+     this.setState({ likePort: val })
+
+   }
+
+   componentWillUnmount(){
+
+     likeSort = [ ] 
+   }
+
    render() {
-    const {userList} = this.props;
- 
+     const userList = this.state.search || likeSort.length ? likeSort : this.props.userList;
+
+
+    
     return (
         <WingBlank style = { { paddingBottom:'60px', paddingTop:50 }}>
+
+        <SearchBar value={this.state.likePort}
+         onChange={value => { this.handleSort(value) } }
+         onFocus={() => { this.setState({ search: true }) }}
+          onSubmit={() => { if (likeSort.length === 0) { Toast.offline('未找到您期望的目标', 1, () => this.setState({ likePort: '', search: false }))  } }}
+         placeholder="请输入职位名称" maxLength={8} />
+
         <QueueAnim type="right">
           {userList.map((user, k) => {
             return (<div key={k} >
@@ -45,4 +79,4 @@ const { Header, Body} = Card
     )
   }
 }
-export default withRouter(UserList)
+export default withRouter ( UserList )

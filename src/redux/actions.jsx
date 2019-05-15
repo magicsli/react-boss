@@ -77,7 +77,11 @@ export const register = ( user ) => {
     const {username, password, password2} = user;
     // 表单前台验证
     if(!username) return errorMsg("用户名必须指定");
+    if ( !/^[a-zA-Z][a-zA-Z0-9]{3,15}$/.test(username)) return errorMsg("用户名必须由3-15位数字或字母组成");
+
     if(!password || !password2) return errorMsg("请设置密码")
+    if (!/^[a-zA-Z0-9]{4,10}$/.test(password)) return errorMsg("密码不能含有非法字符，长度在4-10之间");
+    
     if(password !== password2){
         return errorMsg("俩次密码不一致")
     }
@@ -179,7 +183,6 @@ export const getUserList = (type) => {
 export const readMsg = (from, userId) => {
     return async dispath => {
         const response = await reqReadMsg(from);
-        console.log(response)
             const result = response.data;
             if(result.code === 0){
                 dispath(msgRead({ count: result.data, from, to:userId}) )

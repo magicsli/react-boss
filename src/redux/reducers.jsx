@@ -80,7 +80,7 @@ function chat(state=initChat, action){
        
         case MSGREAD:
                 const { count , from, to} = action.data
-            console.log(state.unReadCount, count)
+          
                 return{
                         users: state.users,
                         chatMsgs: state.chatMsgs.map( msg=>{
