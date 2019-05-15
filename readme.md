@@ -8,8 +8,12 @@
   + 职位筛选功能  -- 完成
   + 等其他模块 -- 初步完成 > 测试中
 + 采用技术 
-  + 前端: react 全家桶 ... 
+  + 前端: ` react + react-router-dom + redux + socketIO ` 
   + 后端: `node + express + mongodb + socketIO` 等
+
+  + 使用了application cache 对静态文件进行缓存处理, 极大提升了页面后续的访问速度, 
+     - 除了第一次加载需要加载所有文件, 后续加载可直接从缓存中获取特定的数据文件 
+
 + 特点:  react的特点该有的都有,优秀的React优点不必多说. 
 + 我的个人网站地址 <a href="https://www.magicsli.com">项目地址</a>
 
