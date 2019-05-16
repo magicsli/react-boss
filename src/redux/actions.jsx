@@ -31,7 +31,7 @@ import io from 'socket.io-client'
 // 接收消息
 function initIo (userid, dispath){
     if(!io.socket){
-      io.socket = io('ws://127.0.0.1:4000')
+      io.socket = io('wss://www.magicsli.com')
     }
    
     io.socket.on('receiveMsg', function (chatMsg) {
