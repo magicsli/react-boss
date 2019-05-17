@@ -23,19 +23,28 @@ const { Header, Body} = Card;
 
    handleSort = (val) => {
      const { userList } = this.props;
-     const likePort = val
-     likeSort = userList.filter( user =>{
-       if (user.post && user.post.indexOf(likePort) !== -1 ){ 
-         return true
-       }
-       return false;
-     } )
+     const likePort = val;
      this.setState({ likePort: val })
+
+     clearTimeout(this.sortKey)
+
+    this.sortKey = setTimeout(() => {
+      likeSort = userList.filter(user => {
+        if (user.post && user.post.indexOf(likePort) !== -1) {
+          return true
+        }
+        return false;
+      })
+        this.setState({ likePort: val })
+    }, 300);
+
+   
+     
 
    }
 
    componentWillUnmount(){
-
+     clearTimeout(this.sortKey)
      likeSort = [ ] 
    }
 
@@ -50,7 +59,7 @@ const { Header, Body} = Card;
         <SearchBar value={this.state.likePort}
          onChange={value => { this.handleSort(value) } }
          onFocus={() => { this.setState({ search: true }) }}
-          onSubmit={() => { if (likeSort.length === 0) { Toast.offline('未找到您期望的目标', 1, () => this.setState({ likePort: '', search: false }))  } }}
+          onBlur={() => { if (likeSort.length === 0) { Toast.offline('未找到您期望的目标', 1, () => this.setState({ likePort: '', search: false }))  } }}
          placeholder="请输入职位名称" maxLength={8} />
 
         <QueueAnim type="right">
