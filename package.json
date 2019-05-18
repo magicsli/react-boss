@@ -24,7 +24,7 @@
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"
   },
-
+  "proxy":"http://127.0.0.1:4000",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -40,7 +40,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy":"http://127.0.0.1:4000",
   "devDependencies": {
     "babel-plugin-import": "^1.11.0",
     "css-loader": "^2.1.1",

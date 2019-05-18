@@ -69,7 +69,7 @@ function chat(state=initChat, action){
         case RECEIVE_MSG_LIST:     // data: {users, chatMsgs, userid}
             const {users, chatMsgs, userid} = action.data;
 
-            return { users, chatMsgs, unReadCount: chatMsgs.reduce((sum, msg) => sum + (!msg.read && msg.to === userid ? 1 : 0) , 0) } ;
+            return { users, chatMsgs, unReadCount: chatMsgs.reduce((sum, msg) => sum + ( (!msg.read && msg.to === userid )? 1 : 0) , 0) } ;
 
         case RECEIVE_MSG: // data: {chatMsg,userid }
             const { chatMsg} = action.data

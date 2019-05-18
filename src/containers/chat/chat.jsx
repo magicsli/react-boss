@@ -120,7 +120,7 @@ class Chat extends Component {
                     onChange={content => this.setState({content})} placeholder='请输入'
                     extra={
                     <span>
-                         <span onClick={ this.toggleShow }>🙂</span>
+                         <span onClick = { this.toggleShow }>🙂</span>
                         <span onClick={this.handleSend}>发送</span>
                     </span>
                  }> 

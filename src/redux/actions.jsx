@@ -30,11 +30,10 @@ import io from 'socket.io-client'
 
 // 接收消息
 function initIo (userid, dispath){
-    if(!io.socket){
+
+    if (io.socket) return;
       io.socket = io('ws://127.0.0.1:4000')
-    }
-   
-    io.socket.on('receiveMsg', function (chatMsg) {
+      io.socket.on('receiveMsg', function (chatMsg) {
         // 这里会接收所有人的消息,  我们只有当chatMsg是与当前用户相关的消息, 才会分发同步action保存消息
         if(userid === chatMsg.from || userid === chatMsg.to){
                 
@@ -132,7 +131,7 @@ export const update = (user) => {
     return async dispath => {
        const response = await  reqUpdata(user);
         const result = response.data;
-        if(result.code == 0){ // 更新成功
+        if(result.code === 0){ // 更新成功
 
             dispath(receiveUser(result.data))    
         }else{ // 更新失败
@@ -147,8 +146,8 @@ export const getUser = () => {
     return async dispath => {
         const response = await reqUser();
         const result = response.data;
-        if(result.code == 0){
-      
+        if(result.code === 0){
+        
             getMsgList(dispath, result.data._id);
             dispath(receiveUser(result.data))
         }else{
@@ -191,10 +190,9 @@ export const readMsg = (from, userId) => {
 }
 
 
-
+// 发送消息
 export const sendMsg = ( {from, to, content} ) => {
    return dispath =>{
-       initIo();
        io.socket.emit('sendMsg', {from, to, content} )
     
    }

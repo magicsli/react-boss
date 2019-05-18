@@ -59,7 +59,7 @@ const { Header, Body} = Card;
         <SearchBar value={this.state.likePort}
          onChange={value => { this.handleSort(value) } }
          onFocus={() => { this.setState({ search: true }) }}
-          onBlur={() => { if (likeSort.length === 0) { Toast.offline('未找到您期望的目标', 1, () => this.setState({ likePort: '', search: false }))  } }}
+         onBlur={() => { if (likeSort.length === 0) { Toast.offline('未找到您期望的目标', 1, () => this.setState({ likePort: '', search: false }))  } }}
          placeholder="请输入职位名称" maxLength={8} />
 
         <QueueAnim type="right">
@@ -88,4 +88,5 @@ const { Header, Body} = Card;
     )
   }
 }
+
 export default withRouter ( UserList )
