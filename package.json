@@ -4,7 +4,7 @@
   "public": true,
   "dependencies": {
     "antd-mobile": "^2.2.11",
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "js-cookie": "^2.2.0",
     "prop-type": "0.0.1",
     "prop-types": "^15.7.2",
