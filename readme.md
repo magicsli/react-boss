@@ -6,7 +6,7 @@
   + 求职者 / hr  列表  -- 完成
   + 实时聊天   -- 完成
   + 职位筛选功能  -- 完成
-  + 等其他模块 -- 初步完成 > 测试中
+  + 等其他模块 -- 完成
 + 采用技术 
   + 前端: ` react + react-router-dom + redux + socketIO ` 
   + 后端: `node + express + mongodb + socketIO` 等
